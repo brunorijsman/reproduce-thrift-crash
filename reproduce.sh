@@ -70,4 +70,5 @@ g++ \
     -o cpp_encode \
     cpp_encode.cpp \
     gen-cpp/model_constants.cpp \
-    gen-cpp/model_types.cpp
+    gen-cpp/model_types.cpp \
+    -lthrift
