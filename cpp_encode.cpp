@@ -43,8 +43,18 @@ void encode_terrain_to_file()
     terrain.write(protocol.get());     
 }
 
+void decode_terrain_from_file()
+{
+    shared_ptr<TFileTransport> transport(new TFileTransport("terrain.dat"));
+    shared_ptr<TBinaryProtocol> protocol(new TBinaryProtocol(transport));
+
+    Terrain terrain;
+    terrain.read(protocol.get());     
+}
+
 int main(int argc, char const *argv[])
 {
     encode_terrain_to_file();
+    decode_terrain_from_file();
     return 0;
 }
