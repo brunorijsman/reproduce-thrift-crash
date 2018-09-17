@@ -1,4 +1,10 @@
+#include <thrift/transport/TFileTransport.h>
 #include "gen-cpp/model_types.h"
+
+using namespace ::apache::thrift;
+using namespace ::apache::thrift::protocol;
+using namespace ::apache::thrift::transport;
+using boost::shared_ptr;
 
 // Thrift generates the declaration but not the implementation of operator< because it has no way
 // of knowning what the criteria for the comparison are. So, provide the implementation here.
@@ -30,10 +36,14 @@ void encode_terrain_to_file()
     add_sample_to_terrain(terrain, 10, 10, 100);
     add_sample_to_terrain(terrain, 20, 20, 200);
     add_sample_to_terrain(terrain, 30, 30, 300);
+
+    shared_ptr<TFileTransport> transport(new TFileTransport("terrain.dat"));
+    shared_ptr<TBinaryProtocol> protocol(new TBinaryProtocol(transport));
+    terrain.write(protocol.get());     
 }
 
 int main(int argc, char const *argv[])
 {
-    encode_terrain_to_file()
+    encode_terrain_to_file();
     return 0;
 }
