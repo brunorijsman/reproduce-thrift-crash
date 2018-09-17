@@ -3,6 +3,6 @@ struct Coordinate {
     2: required i32 y;
 }
 
-struct Map {
-    1: required map<Coordinate, string> places;
+struct Terrain {
+    1: required map<Coordinate, i32> altitude_samples;
 }
