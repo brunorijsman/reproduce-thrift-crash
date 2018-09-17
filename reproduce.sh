@@ -65,4 +65,9 @@ sudo make install
 # Build C++ test program
 cd ~/reproduce-thrift-crash
 thrift -gen cpp model.thrift
-g++ -Wall -o cpp_encode cpp_encode.cpp
+g++ \
+    -Wall \
+    -o cpp_encode \
+    cpp_encode.cpp \
+    gen-cpp/model_constants.cpp \
+    gen-cpp/model_types.cpp

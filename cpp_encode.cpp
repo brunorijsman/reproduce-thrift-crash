@@ -4,6 +4,5 @@ int main(int argc, char const *argv[])
 {
     Coordinate coordinate;
 
-
     return 0;
 }
