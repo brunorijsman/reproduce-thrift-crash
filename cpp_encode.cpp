@@ -1,9 +1,9 @@
 #include <thrift/transport/TFileTransport.h>
 #include "gen-cpp/model_types.h"
 
-using namespace ::apache::thrift;
-using namespace ::apache::thrift::protocol;
-using namespace ::apache::thrift::transport;
+using namespace apache::thrift;
+using namespace apache::thrift::protocol;
+using namespace apache::thrift::transport;
 using boost::shared_ptr;
 
 // Thrift generates the declaration but not the implementation of operator< because it has no way
