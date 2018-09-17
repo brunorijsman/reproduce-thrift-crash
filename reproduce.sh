@@ -62,9 +62,11 @@ fi
 make
 sudo make install
 
-# Build C++ test program
+# Run the Thrift compiler to generate the C++ encoding and decoding functions
 cd ~/reproduce-thrift-crash
 thrift -gen cpp model.thrift
+
+# Build C++ test program
 g++ \
     -Wall \
     -o cpp_encode \
@@ -72,3 +74,9 @@ g++ \
     gen-cpp/model_constants.cpp \
     gen-cpp/model_types.cpp \
     -lthrift
+
+# Run the C++ test program: serialize a Terrain object into a file, and deserialize to check
+./cpp_encode
+
+# Run the Thrift compiler to generate the Python encoding and decoding functions
+thrift -gen py model.thrift
