@@ -63,7 +63,7 @@ void decode_terrain_from_file()
     assert(terrain.altitude_samples.size() == 3);
     check_sample_in_terrain(terrain, 10, 10, 100);
     check_sample_in_terrain(terrain, 20, 20, 200);
-    check_sample_in_terrain(terrain, 30, 30, 300);
+    check_sample_in_terrain(terrain, 30, 30, 400);
 }
 
 int main(int argc, char const *argv[])
