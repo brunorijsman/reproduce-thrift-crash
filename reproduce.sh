@@ -78,5 +78,8 @@ g++ \
 # Run the C++ test program: serialize a Terrain object into a file, and deserialize to check
 ./cpp_encode
 
+# Install thrift library for Python
+pip install thrift
+
 # Run the Thrift compiler to generate the Python encoding and decoding functions
 thrift -gen py model.thrift
