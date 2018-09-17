@@ -1,3 +1,4 @@
+#include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TFileTransport.h>
 #include "gen-cpp/model_types.h"
 
