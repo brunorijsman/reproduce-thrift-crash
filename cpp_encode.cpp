@@ -1,5 +1,6 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TFileTransport.h>
+#include <assert.h>
 #include "gen-cpp/model_types.h"
 
 using namespace apache::thrift;
@@ -31,6 +32,14 @@ void add_sample_to_terrain(Terrain& terrain, int32_t x, int32_t y, int32_t altit
     terrain.altitude_samples.insert(sample);
 }
 
+void check_sample_in_terrain(Terrain& terrain, int32_t x, int32_t y, int32_t altitude)
+{
+    Coordinate coordinate;
+    coordinate.x = x;
+    coordinate.y = y;
+    assert(terrain.altitude_samples[coordinate] == altitude)
+}
+
 void encode_terrain_to_file()
 {
     Terrain terrain;
@@ -49,7 +58,12 @@ void decode_terrain_from_file()
     shared_ptr<TBinaryProtocol> protocol(new TBinaryProtocol(transport));
 
     Terrain terrain;
-    terrain.read(protocol.get());     
+    terrain.read(protocol.get());
+
+    assert(terrain.altitude_samples.size() == 3);
+    check_sample_in_terrain(terrain, 10, 10, 100);
+    check_sample_in_terrain(terrain, 20, 20, 200);
+    check_sample_in_terrain(terrain, 30, 30, 300);
 }
 
 int main(int argc, char const *argv[])
