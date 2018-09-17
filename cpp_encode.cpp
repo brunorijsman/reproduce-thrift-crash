@@ -37,7 +37,7 @@ void check_sample_in_terrain(Terrain& terrain, int32_t x, int32_t y, int32_t alt
     Coordinate coordinate;
     coordinate.x = x;
     coordinate.y = y;
-    assert(terrain.altitude_samples[coordinate] == altitude)
+    assert(terrain.altitude_samples[coordinate] == altitude);
 }
 
 void encode_terrain_to_file()
