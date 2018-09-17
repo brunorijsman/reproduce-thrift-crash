@@ -29,10 +29,36 @@ sudo apt-get -y install \
 
 # Download, build, and install Thrift
 cd ~
-git clone https://github.com/apache/thrift.git
-cd thrift
+if [ -d thrift ]; then
+    cd thrift
+    git pull
+else
+    git clone https://github.com/apache/thrift.git
+    cd thrift
+fi
 ./bootstrap.sh
-./configure --with-lua=no
+./configure \
+    --without-lua \
+    --without-qt4 \
+    --without-qt5 \
+    --without-c_glib \
+    --without-csharp \
+    --without-java \
+    --without-erlang \
+    --without-nodejs \
+    --without-lua \
+    --without-perl \
+    --without-php \
+    --without-php_extension \
+    --without-dart \
+    --without-ruby \
+    --without-haskell \
+    --without-go \
+    --without-rs \
+    --without-cl \
+    --without-haxe \
+    --without-dotnetcore \
+    --without-d
 make
 sudo make install
 
