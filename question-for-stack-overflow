@@ -1,0 +1,78 @@
+Summary: when I use Thrift to serialize map in C++ to disk, and then de-serialize it using Python, I do not get back the same object.
+
+A minimal example to reproduce to the problem is in Github repo https://github.com/brunorijsman/reproduce-thrift-crash
+
+Clone this repo on Ubuntu (tested on 16.04) and follow the instructions at the top of the file reproduce.sh
+
+I have the following Thrift model file, which (as you can see) contains a map indexed by a struct:
+
+    struct Coordinate {
+        1: required i32 x;
+        2: required i32 y;
+    }
+
+    struct Terrain {
+        1: required map<Coordinate, i32> altitude_samples;
+    }
+
+I use the following C++ code to create an object with 3 coordinates in the map (see the repo for complete code for all snippets below):
+
+    Terrain terrain;
+    add_sample_to_terrain(terrain, 10, 10, 100);
+    add_sample_to_terrain(terrain, 20, 20, 200);
+    add_sample_to_terrain(terrain, 30, 30, 300);
+
+where:
+
+    void add_sample_to_terrain(Terrain& terrain, int32_t x, int32_t y, int32_t altitude)
+    {
+        Coordinate coordinate;
+        coordinate.x = x;
+        coordinate.y = y;
+        std::pair<Coordinate, int32_t> sample(coordinate, altitude);
+        terrain.altitude_samples.insert(sample);
+    }
+
+I use the following C++ code to serialize an object to disk:
+
+    shared_ptr<TFileTransport> transport(new TFileTransport("terrain.dat"));
+    shared_ptr<TBinaryProtocol> protocol(new TBinaryProtocol(transport));
+    terrain.write(protocol.get());
+
+Important note: for this to work correctly, I had to implement the function Coordinate::operator<. Thrift does generate the declaration for the Coordinate::operator< but does not generate the implementation of Coordinate::operator<. The reason for this is that Thrift does not understand the semantics of the struct and hence cannot guess the correct implementation of the comparison operator. This is discussed at http://mail-archives.apache.org/mod_mbox/thrift-user/201007.mbox/%3C4C4E08BD.8030407@facebook.com%3E
+
+    // Thrift generates the declaration but not the implementation of operator< because it has no way
+    // of knowning what the criteria for the comparison are. So, provide the implementation here.
+    bool Coordinate::operator<(const Coordinate& other) const
+    {
+        if (x < other.x) {
+            return true;
+        } else if (x > other.x) {
+            return false;
+        } else if (y < other.y) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+Then, finally, I use the following Python code to de-serialize the same object from disk:
+
+    file = open("terrain.dat", "rb")
+    transport = thrift.transport.TTransport.TFileObjectTransport(file)
+    protocol = thrift.protocol.TBinaryProtocol.TBinaryProtocol(transport)
+    terrain = Terrain()
+    terrain.read(protocol)
+    print(terrain)
+
+This Python program outputs:
+
+    Terrain(altitude_samples=None)
+
+In other words, the de-serialized Terrain contains no terrain_samples, instead of the expected dictionary with 3 coordinates.
+
+I am 100% sure that the file terrain.dat contains valid data: I also de-serialized the same data using C++ and in that case, I *do* get the expected results (see repo for details)
+
+I suspect that this has something to do with the comparison operator.
+
+I gut feeling is that I should have done something similar in Python with respect to the comparison operator as I did in C++. But I don't know what that missing something would be.
