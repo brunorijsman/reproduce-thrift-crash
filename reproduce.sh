@@ -78,8 +78,20 @@ g++ \
 # Run the C++ test program: serialize a Terrain object into a file, and deserialize to check
 ./cpp_encode
 
+# Install virtualenv
+sudo apt-get install -y virtualenv
+
+# Create a virtual environment
+virtualenv env --python=python3
+
+# Activate the virtual environment
+source env/bin/activate
+
 # Install thrift library for Python
 pip install thrift
 
 # Run the Thrift compiler to generate the Python encoding and decoding functions
 thrift -gen py model.thrift
+
+# Run the Python test program: decode the Terrain object in the file that C++ generated
+python py_decode.py
