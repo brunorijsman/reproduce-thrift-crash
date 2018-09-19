@@ -5,11 +5,16 @@ sys.path.append('gen-py')
 
 import thrift.protocol.TBinaryProtocol
 import thrift.transport.TTransport
-from model.ttypes import *
+import model.ttypes
 
-file = open("terrain.dat", "rb")
-transport = thrift.transport.TTransport.TFileObjectTransport(file)
-protocol = thrift.protocol.TBinaryProtocol.TBinaryProtocol(transport)
-terrain = Terrain()
-terrain.read(protocol)
-print(terrain)
+def decode_terrain_from_file():
+    file = open("terrain.dat", "rb")
+    transport = thrift.transport.TTransport.TFileObjectTransport(file)
+    protocol = thrift.protocol.TBinaryProtocol.TBinaryProtocol(transport)
+    terrain = model.ttypes.Terrain()
+    terrain.read(protocol)
+    print(terrain)
+
+if __name__ == "__main__":
+    decode_terrain_from_file()
+    
