@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Script to reproduce the following issue on Ubuntu
+# https://stackoverflow.com/questions/52377410/when-i-use-thrift-to-serialize-map-in-c-to-disk-and-then-de-serialize-it-usin
 # This has been tested on Ubuntu 16.04 running in AWS
 
 # Assuming you already did the following to install and run this script:
