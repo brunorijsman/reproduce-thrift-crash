@@ -9,14 +9,19 @@ import model.ttypes
 
 model.ttypes.Coordinate.__hash__ = lambda self: hash((self.x, self.y))
 
-def decode_terrain_from_file():
-    file = open("terrain.dat", "rb")
+def encode_terrain_to_file():
+    amplitude_samples = {
+        model.ttypes.Coordinate(x=10, y=10): 100,
+        model.ttypes.Coordinate(x=20, y=20): 200,
+        model.ttypes.Coordinate(x=30, y=30): 300,
+    }
+    terrain = model.ttypes.Terrain(amplitude_samples)
+    print(terrain)
+    file = open("terrain.dat", "wb")
     transport = thrift.transport.TTransport.TFileObjectTransport(file)
     protocol = thrift.protocol.TBinaryProtocol.TBinaryProtocol(transport)
-    terrain = model.ttypes.Terrain()
-    terrain.read(protocol)
-    print(terrain)
+    terrain.write(protocol)
 
 if __name__ == "__main__":
-    decode_terrain_from_file()
+    encode_terrain_to_file()
     
