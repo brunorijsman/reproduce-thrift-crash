@@ -9,6 +9,8 @@ import model.ttypes
 
 model.ttypes.Coordinate.__hash__ = lambda self: hash((self.x, self.y))
 
+model.ttypes.Coordinate.__eq__ = lambda self, other: hash((self.x, self.y) == (other.x, other.y))
+
 def encode_terrain_to_file():
     amplitude_samples = {
         model.ttypes.Coordinate(x=10, y=10): 100,

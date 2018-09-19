@@ -9,6 +9,8 @@ import model.ttypes
 
 model.ttypes.Coordinate.__hash__ = lambda self: hash((self.x, self.y))
 
+model.ttypes.Coordinate.__eq__ = lambda self, other: hash((self.x, self.y) == (other.x, other.y))
+
 def decode_terrain_from_file():
     file = open("terrain.dat", "rb")
     transport = thrift.transport.TTransport.TFileObjectTransport(file)
