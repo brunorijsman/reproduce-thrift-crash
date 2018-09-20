@@ -1,30 +1,7 @@
-If needed, install HomeBrew:
+The code in this repository reproduces the problem that is described here:
 
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew update
+https://stackoverflow.com/questions/52377410/when-i-use-thrift-to-serialize-map-in-c-to-disk-and-then-de-serialize-it-usin
 
-If needed, install boost:
+To reproduce in on Linux, run script reproduce-linux.sh
 
-    brew install boost
-
-If needed, install thrift:
-
-    brew install thrift
-
-Clone the github repository:
-
-    git clone https://github.com/brunorijsman/reproduce-thrift-crash.git
-
-Create and activate a Python virtual environment:
-
-    cd reproduce-thrift-crash
-    virtualenv env --python=python3
-    source env/bin/activate
-
-Run the Thrift compiler to generate the Python encoding and decoding functions:
-
-    thrift -gen py model.thrift
-
-Run the Thrift compiler to generate the C++ encoding and decoding functions:
-
-    thrift -gen cpp model.thrift
+To reproduce in on macOS, run script reproduce-macos.sh

@@ -77,6 +77,9 @@ g++ \
     gen-cpp/model_types.cpp \
     -lthrift
 
+# Set the dynamic library path
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
+
 # Run the C++ test program: serialize a Terrain object into a file, and deserialize to check
 ./cpp_encode
 
