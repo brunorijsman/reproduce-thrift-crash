@@ -10,7 +10,7 @@
 # sudo apt-get -y install git
 # git clone https://github.com/brunorijsman/reproduce-thrift-crash.git
 # cd reproduce-thrift-crash
-# ./reproduce.sh
+# ./reproduce-linux.sh
 
 sudo apt-get -y update
 
